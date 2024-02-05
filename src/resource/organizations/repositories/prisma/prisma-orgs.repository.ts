@@ -10,7 +10,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
     constructor(private prisma: PrismaService) { }
 
     async create(data: OrgEntity) {
-        const findedOrg = await this.prisma.organizacao.findUnique({
+        const findedOrg = await this.prisma.organization.findUnique({
             where: {
                 email: data.email
             }
@@ -20,7 +20,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
             throw new BadRequestException('Organization already exists.')
         }
 
-        const org = await this.prisma.organizacao.create({
+        const org = await this.prisma.organization.create({
             data: {
                 name: data.name,
                 email: data.email,
@@ -44,7 +44,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
 
         const skip = (page - 1) * limit;
 
-        const total = await this.prisma.organizacao.count({
+        const total = await this.prisma.organization.count({
             where: {
                 OR: [
                     {
@@ -61,7 +61,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
             }
         })
 
-        const orgs = await this.prisma.organizacao.findMany({
+        const orgs = await this.prisma.organization.findMany({
             where: {
                 OR: [
                     {
@@ -93,7 +93,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
     async findUnique(id: string) {
         const intId = parseInt(id)
 
-        const org = await this.prisma.organizacao.findUnique({
+        const org = await this.prisma.organization.findUnique({
             where: {
                 id: intId,
             }
@@ -105,7 +105,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
     async update(id: string, dataOrg: UpdateOrgDto) {
         const intId = parseInt(id)
 
-        const org = await this.prisma.organizacao.update({
+        const org = await this.prisma.organization.update({
             where: {
                 id: intId,
             },
@@ -126,7 +126,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
     async delete(id: string): Promise<void> {
         const intId = parseInt(id)
 
-        const org = await this.prisma.organizacao.delete({
+        const org = await this.prisma.organization.delete({
             where: {
                 id: intId,
             }

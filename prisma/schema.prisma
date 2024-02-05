@@ -10,7 +10,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model organizacao {
+model organization {
     id        Int       @id @unique @default(autoincrement())
     name      String
     email     String    @unique
