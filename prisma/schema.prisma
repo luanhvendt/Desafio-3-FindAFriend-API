@@ -21,4 +21,23 @@ model organization {
     createdAt DateTime  @default(now())
     updatedAt DateTime?
     deletedAt DateTime?
+    pet       pet[]
+}
+
+model pet {
+    id           Int       @id @unique @default(autoincrement())
+    name         String
+    about        String
+    age          Int
+    size         String
+    energy       String
+    independence String
+    environment  String
+    photos       String
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime?
+    deletedAt    DateTime?
+
+    organization    organization @relation(fields: [organization_id], references: [id])
+    organization_id Int
 }
