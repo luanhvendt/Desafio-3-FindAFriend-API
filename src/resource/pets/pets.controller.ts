@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/guard/jwt-auth.guard";
 import { CreatePetDto } from "./dto/create-pet.dto";
 import { QueryPetDto } from "./dto/query-pet.dto";
 import { UpdatePetDto } from "./dto/update-org.dto";
 import { PetsService } from "./pets.service";
 
 @Controller('pet')
+@UseGuards(JwtAuthGuard)
 export class PetsController {
     constructor(private readonly petsService: PetsService) { }
 

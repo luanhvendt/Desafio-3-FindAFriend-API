@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/guard/jwt-auth.guard";
 import { CreateOrgDto } from "./dto/create-org.dto";
 import { QueryOrgrDto } from "./dto/query-org.dto";
 import { UpdateOrgDto } from "./dto/update-org.dto";
 import { OrgsService } from "./orgs.service";
 
 @Controller('organization')
+@UseGuards(JwtAuthGuard)
 export class OrganizationController {
     constructor(private readonly organizationsService: OrgsService) { }
 
@@ -16,11 +18,6 @@ export class OrganizationController {
     @Get(':id')
     findUnique(@Param('id') id: string) {
         return this.organizationsService.findUnique(id);
-    }
-
-    @Post()
-    create(@Body() createOrgDto: CreateOrgDto) {
-        return this.organizationsService.create(createOrgDto)
     }
 
     @Put(':id')

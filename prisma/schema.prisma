@@ -11,17 +11,18 @@ datasource db {
 }
 
 model organization {
-    id        Int       @id @unique @default(autoincrement())
-    name      String
-    email     String    @unique
-    cep       String
-    adress    String
-    whatsapp  String
-    password  String
-    createdAt DateTime  @default(now())
-    updatedAt DateTime?
-    deletedAt DateTime?
-    pet       pet[]
+    id           Int            @id @unique @default(autoincrement())
+    name         String
+    email        String         @unique
+    cep          String
+    adress       String
+    whatsapp     String
+    password     String
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime?
+    deletedAt    DateTime?
+    pet          pet[]
+    refreshToken refreshToken[]
 }
 
 model pet {
@@ -42,4 +43,13 @@ model pet {
 
     organization    organization @relation(fields: [organization_id], references: [id])
     organization_id Int
+}
+
+model refreshToken {
+    id           Int     @id @unique @default(autoincrement())
+    refreshToken String
+    orgId        Int
+    used         Boolean @default(false)
+
+    organization organization @relation(fields: [orgId], references: [id])
 }

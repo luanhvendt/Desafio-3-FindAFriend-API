@@ -16,7 +16,6 @@ export class PetsService {
         if (!data.organization_id) {
             throw new BadRequestException('organization_id is required.')
         }
-
         const findedOrg = await this.orgsRepository.findUnique(String(data.organization_id))
         if (!findedOrg) {
             throw new BadRequestException('Organization not found.')
