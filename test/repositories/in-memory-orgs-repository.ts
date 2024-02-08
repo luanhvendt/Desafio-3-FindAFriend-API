@@ -1,18 +1,24 @@
+import { CepService } from "src/resource/cep/cep.service";
 import { UpdateOrgDto } from "src/resource/organizations/dto/update-org.dto";
 import { OrgEntity } from "src/resource/organizations/entities/org.entity";
 import { OrgsRepository } from "src/resource/organizations/repositories/orgs.repository";
 
 export class InMemoryOrgsRepository implements OrgsRepository {
+    constructor(private readonly cepService: CepService) { }
+
     public items: any = []
 
     async create(data: OrgEntity) {
         const randomNumber = Math.floor(Math.random() * 101)
+
+        const city = await this.cepService.getCidadeByCep(data.cep)
 
         const org = {
             id: Number(data.id) | randomNumber,
             name: data.name,
             email: data.email,
             cep: data.cep,
+            city,
             adress: data.adress,
             whatsapp: data.whatsapp,
             password: data.password,

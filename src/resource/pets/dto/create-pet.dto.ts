@@ -1,4 +1,5 @@
 export interface CreatePetDto {
+    id?: number,
     organization_id: number;
     name: string;
     about: string;
