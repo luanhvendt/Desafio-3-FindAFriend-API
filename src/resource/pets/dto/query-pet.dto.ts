@@ -4,6 +4,7 @@ export interface QueryPetDto {
     search?: string;
     name?: string;
     age?: number;
+    cep?: string;
     size?: string;
     energy?: string;
     independence?: string;

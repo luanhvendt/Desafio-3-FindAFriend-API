@@ -7,7 +7,6 @@ export interface CreatePetDto {
     energy: 'Baixa' | 'Media' | 'Alta';
     independence: 'Baixa' | 'Media' | 'Alta';
     environment: 'Ambiente amplo' | 'Ambiente pequeno';
-    city: string;
     photos: string;
     requirements: string;
     createdAt: Date;

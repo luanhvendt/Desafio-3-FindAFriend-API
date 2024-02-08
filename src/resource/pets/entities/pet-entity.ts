@@ -8,7 +8,6 @@ export interface PetEntity {
     independence: string;
     environment: string;
     photos: string;
-    city: string
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;

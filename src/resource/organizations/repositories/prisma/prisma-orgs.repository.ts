@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/database/PrismaService";
+import { CepService } from "src/resource/cep/cep.service";
 import { QueryOrgrDto } from "../../dto/query-org.dto";
 import { UpdateOrgDto } from "../../dto/update-org.dto";
 import { OrgEntity } from "../../entities/org.entity";
@@ -7,7 +8,10 @@ import { OrgsRepository } from "../orgs.repository";
 
 @Injectable()
 export class PrismaOrgsRepository implements OrgsRepository {
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private cepService: CepService,
+    ) { }
 
     async create(data: OrgEntity) {
         const findedOrg = await this.prisma.organization.findUnique({
@@ -20,11 +24,18 @@ export class PrismaOrgsRepository implements OrgsRepository {
             throw new BadRequestException('Organization already exists.')
         }
 
+        const cidade = await this.cepService.getCidadeByCep(data.cep)
+
+        if (!cidade) {
+            throw new BadRequestException('Invalid CEP.')
+        }
+
         const org = await this.prisma.organization.create({
             data: {
                 name: data.name,
                 email: data.email,
                 cep: data.cep,
+                city: cidade,
                 adress: data.adress,
                 whatsapp: data.whatsapp,
                 password: data.password,

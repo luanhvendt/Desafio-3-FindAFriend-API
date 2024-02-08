@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/database/PrismaService";
+import { CepService } from "src/resource/cep/cep.service";
 import { CreatePetDto } from "../../dto/create-pet.dto";
 import { QueryPetDto } from "../../dto/query-pet.dto";
 import { UpdatePetDto } from "../../dto/update-org.dto";
@@ -7,7 +8,10 @@ import { PetsRepository } from "../pets.repository";
 
 @Injectable()
 export class PrismaPetsRepository implements PetsRepository {
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private cepService: CepService,
+    ) { }
 
     async create(data: CreatePetDto) {
         const pet = await this.prisma.pet.create({
@@ -20,7 +24,6 @@ export class PrismaPetsRepository implements PetsRepository {
                 energy: data.energy,
                 independence: data.independence,
                 environment: data.environment,
-                city: data.city,
                 photos: data.photos,
                 requirements: data.requirements,
                 createdAt: new Date()
@@ -39,7 +42,6 @@ export class PrismaPetsRepository implements PetsRepository {
 
         let whereCondition: any = {
             deletedAt: null,
-            city,
         };
 
         if (search) {
@@ -81,6 +83,24 @@ export class PrismaPetsRepository implements PetsRepository {
             whereCondition.requirements = { contains: requirements };
         }
 
+        // Encontre todas as organizações na cidade especificada
+        const organizationsInCity = await this.prisma.organization.findMany({
+            where: {
+                city,
+            },
+            select: {
+                id: true, // Seleciona apenas o ID das organizações
+            },
+        });
+
+        // Obtenha os IDs das organizações encontradas
+        const organizationIds = organizationsInCity.map(org => org.id);
+
+        // Adicione a condição para filtrar pets pertencentes a essas organizações
+        whereCondition.organization_id = {
+            in: organizationIds,
+        };
+
         const total = await this.prisma.pet.count({
             where: whereCondition,
         });
@@ -100,6 +120,7 @@ export class PrismaPetsRepository implements PetsRepository {
             data: pets,
         };
     }
+
 
 
     async findUnique(id: string) {
@@ -129,7 +150,6 @@ export class PrismaPetsRepository implements PetsRepository {
                 energy: dataPet.energy,
                 independence: dataPet.independence,
                 environment: dataPet.environment,
-                city: dataPet.city,
                 photos: dataPet.photos,
                 requirements: dataPet.requirements,
                 updatedAt: new Date()

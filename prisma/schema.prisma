@@ -15,6 +15,7 @@ model organization {
     name         String
     email        String         @unique
     cep          String
+    city         String?
     adress       String
     whatsapp     String
     password     String
@@ -34,7 +35,6 @@ model pet {
     energy       String
     independence String
     environment  String
-    city         String
     photos       String
     requirements String
     createdAt    DateTime  @default(now())

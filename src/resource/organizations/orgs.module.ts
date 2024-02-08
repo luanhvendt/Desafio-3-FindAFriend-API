@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { PrismaService } from "src/database/PrismaService";
+import { CepService } from "../cep/cep.service";
 import { LoginOrgsController } from "./login-orgs.controller";
 import { OrganizationController } from "./orgs.controller";
 import { OrgsService } from "./orgs.service";
@@ -11,6 +12,7 @@ import { PrismaOrgsRepository } from "./repositories/prisma/prisma-orgs.reposito
     providers: [
         PrismaService,
         OrgsService,
+        CepService,
         PrismaOrgsRepository,
         { provide: OrgsRepository, useClass: PrismaOrgsRepository }
     ],

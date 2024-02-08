@@ -10,9 +10,9 @@ import { PetsService } from "./pets.service";
 export class PetsController {
     constructor(private readonly petsService: PetsService) { }
 
-    @Get(':city')
-    findAll(@Query() query: QueryPetDto, @Param('city') city: string) {
-        return this.petsService.findAll(city, query)
+    @Get(':cidade')
+    findAll(@Query() query: QueryPetDto, @Param('cidade') cidade: string) {
+        return this.petsService.findAll(cidade, query)
     }
 
     @Get(':id')
