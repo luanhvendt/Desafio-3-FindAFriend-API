@@ -29,37 +29,67 @@ export class PrismaPetsRepository implements PetsRepository {
     }
 
     async findAll(city: string, query: QueryPetDto) {
-        let { page = 1, limit = 10, search = '' } = query
+        let { page = 1, limit = 10, search = '', name, age, size, energy, independence, environment, requirements } = query;
 
-        page = Number(page)
-        limit = Number(limit)
-        search = String(search)
+        page = Number(page);
+        limit = Number(limit);
+        search = String(search);
 
-        const skip = (page - 1) * limit
+        const skip = (page - 1) * limit;
+
+        let whereCondition: any = {
+            deletedAt: null,
+            city,
+        };
+
+        if (search) {
+            whereCondition.OR = [
+                { name: { contains: search } },
+                { size: { contains: search } },
+                { energy: { contains: search } },
+                { independence: { contains: search } },
+                { environment: { contains: search } },
+                { requirements: { contains: search } },
+            ];
+        }
+
+        if (name) {
+            whereCondition.name = { contains: name };
+        }
+
+        if (age) {
+            whereCondition.age = Number(age);
+        }
+
+        if (size) {
+            whereCondition.size = { contains: size };
+        }
+
+        if (energy) {
+            whereCondition.energy = { contains: energy };
+        }
+
+        if (independence) {
+            whereCondition.independence = { contains: independence };
+        }
+
+        if (environment) {
+            whereCondition.environment = { contains: environment };
+        }
+
+        if (requirements) {
+            whereCondition.requirements = { contains: requirements };
+        }
 
         const total = await this.prisma.pet.count({
-            where: {
-                deletedAt: null,
-                city,
-                OR: [
-                    {
-                        name: {
-                            contains: search,
-                        }
-                    }
-                ]
-            }
-        })
+            where: whereCondition,
+        });
 
         const pets = await this.prisma.pet.findMany({
-            where: {
-                deletedAt: null,
-                city,
-            },
+            where: whereCondition,
             skip,
             take: limit,
-
-        })
+        });
 
         return {
             total,
@@ -67,9 +97,10 @@ export class PrismaPetsRepository implements PetsRepository {
             search,
             limit,
             pages: Math.ceil(total / limit),
-            data: pets
-        }
+            data: pets,
+        };
     }
+
 
     async findUnique(id: string) {
         const intId = parseInt(id)

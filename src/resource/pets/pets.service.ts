@@ -1,4 +1,5 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { OrgsRepository } from "../organizations/repositories/orgs.repository";
 import { CreatePetDto } from "./dto/create-pet.dto";
 import { QueryPetDto } from "./dto/query-pet.dto";
 import { UpdatePetDto } from "./dto/update-org.dto";
@@ -6,39 +7,46 @@ import { PetsRepository } from "./repositories/pets.repository";
 
 @Injectable()
 export class PetsService {
-    constructor(private petsRepository: PetsRepository) { }
+    constructor(
+        private petsRepository: PetsRepository,
+        private orgsRepository: OrgsRepository
+    ) { }
 
     async create(data: CreatePetDto) {
         if (!data.organization_id) {
-            throw new Error('organization_id is required.')
+            throw new BadRequestException('organization_id is required.')
         }
 
+        const findedOrg = await this.orgsRepository.findUnique(String(data.organization_id))
+        if (!findedOrg) {
+            throw new BadRequestException('Organization not found.')
+        }
         if (!data.name) {
-            throw new Error('name is required.')
+            throw new BadRequestException('name is required.')
         }
         if (!data.about) {
-            throw new Error('about is required.')
+            throw new BadRequestException('about is required.')
         }
         if (!data.age) {
-            throw new Error('age is required.')
+            throw new BadRequestException('age is required.')
         }
         if (!data.size) {
-            throw new Error('size is required.')
+            throw new BadRequestException('size is required.')
         }
         if (!data.energy) {
-            throw new Error('energy is required.')
+            throw new BadRequestException('energy is required.')
         }
         if (!data.independence) {
-            throw new Error('independence is required.')
+            throw new BadRequestException('independence is required.')
         }
         if (!data.environment) {
-            throw new Error('environment is required.')
+            throw new BadRequestException('environment is required.')
         }
         if (!data.photos) {
-            throw new Error('photos is required.')
+            throw new BadRequestException('photos is required.')
         }
         if (!data.requirements) {
-            throw new Error('requirements is required.')
+            throw new BadRequestException('requirements is required.')
         }
 
         const pet = await this.petsRepository.create(data)
