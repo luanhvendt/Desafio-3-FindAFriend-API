@@ -33,7 +33,9 @@ model pet {
     energy       String
     independence String
     environment  String
+    city         String
     photos       String
+    requirements String
     createdAt    DateTime  @default(now())
     updatedAt    DateTime?
     deletedAt    DateTime?

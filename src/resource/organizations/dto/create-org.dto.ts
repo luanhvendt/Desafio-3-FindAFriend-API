@@ -5,4 +5,5 @@ export class CreateOrgDto {
     adress: string;
     whatsapp: string;
     password: string;
+    createdAt: Date;
 }

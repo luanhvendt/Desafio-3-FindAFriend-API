@@ -6,7 +6,7 @@ export interface OrgEntity {
     adress: string;
     whatsapp: string;
     password: string;
-    createdAt?: string;
-    updatedAt?: string;
-    deletedAt?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date;
 }

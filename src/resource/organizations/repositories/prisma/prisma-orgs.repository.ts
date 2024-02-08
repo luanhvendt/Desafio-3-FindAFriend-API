@@ -46,6 +46,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
 
         const total = await this.prisma.organization.count({
             where: {
+                deletedAt: null,
                 OR: [
                     {
                         name: {
@@ -63,6 +64,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
 
         const orgs = await this.prisma.organization.findMany({
             where: {
+                deletedAt: null,
                 OR: [
                     {
                         name: {
@@ -95,6 +97,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
 
         const org = await this.prisma.organization.findUnique({
             where: {
+                deletedAt: null,
                 id: intId,
             }
         })
@@ -123,12 +126,24 @@ export class PrismaOrgsRepository implements OrgsRepository {
         return org
     }
 
-    async delete(id: string): Promise<void> {
+    async delete(id: string) {
         const intId = parseInt(id)
 
-        const org = await this.prisma.organization.delete({
+        const deletedPets = await this.prisma.pet.updateMany({
+            where: {
+                organization_id: parseInt(id),
+            },
+            data: {
+                deletedAt: new Date()
+            }
+        })
+
+        const org = await this.prisma.organization.update({
             where: {
                 id: intId,
+            },
+            data: {
+                deletedAt: new Date()
             }
         })
     }

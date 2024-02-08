@@ -5,4 +5,5 @@ export interface UpdateOrgDto {
     adress?: string;
     whatsapp?: string;
     password?: string;
+    updatedAt: Date;
 }
