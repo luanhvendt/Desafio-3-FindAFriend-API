@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/database/PrismaService";
-import { CepService } from "src/resource/cep/cep.service";
+import { PrismaService } from "../../../../database/PrismaService";
+import { CepService } from "../../../cep/cep.service";
 import { CreatePetDto } from "../../dto/create-pet.dto";
 import { QueryPetDto } from "../../dto/query-pet.dto";
 import { UpdatePetDto } from "../../dto/update-org.dto";

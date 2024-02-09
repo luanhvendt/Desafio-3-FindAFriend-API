@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
-import { JwtAuthGuard } from "src/auth/guard/jwt-auth.guard";
-import { CreateOrgDto } from "./dto/create-org.dto";
+import { Body, Controller, Delete, Get, Param, Put, Query, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { QueryOrgrDto } from "./dto/query-org.dto";
 import { UpdateOrgDto } from "./dto/update-org.dto";
 import { OrgsService } from "./orgs.service";

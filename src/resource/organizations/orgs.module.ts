@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { PrismaService } from "src/database/PrismaService";
+import { PrismaService } from "../../database/PrismaService";
 import { CepService } from "../cep/cep.service";
 import { LoginOrgsController } from "./login-orgs.controller";
 import { OrganizationController } from "./orgs.controller";

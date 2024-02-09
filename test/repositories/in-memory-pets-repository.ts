@@ -1,11 +1,8 @@
-import { CepService } from "src/resource/cep/cep.service";
-import { CreatePetDto } from "src/resource/pets/dto/create-pet.dto";
-import { UpdatePetDto } from "src/resource/pets/dto/update-org.dto";
-import { PetsRepository } from "src/resource/pets/repositories/pets.repository";
+import { CreatePetDto } from "../../src/resource/pets/dto/create-pet.dto";
+import { UpdatePetDto } from "../../src/resource/pets/dto/update-org.dto";
+import { PetsRepository } from "../../src/resource/pets/repositories/pets.repository";
 
 export class InMemoryPetsRepository implements PetsRepository {
-    constructor(private readonly cepService: CepService) { }
-
     public items: any = []
 
     async create(data: CreatePetDto) {
@@ -13,7 +10,7 @@ export class InMemoryPetsRepository implements PetsRepository {
 
         const cep = '18016040'
 
-        const city = await this.cepService.getCidadeByCep(cep)
+        const city = 'Sorocaba'
 
         const org = {
             id: 1,
@@ -44,8 +41,8 @@ export class InMemoryPetsRepository implements PetsRepository {
         this.items.push(pet)
     }
 
-    async findAll(cep = '18016040') {
-        const city = await this.cepService.getCidadeByCep(cep)
+    async findAll() {
+        const city = 'Sorocaba'
 
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].city == city) {
@@ -87,17 +84,3 @@ export class InMemoryPetsRepository implements PetsRepository {
         }
     }
 }
-
-/*
-organization_id: data.organization_id,
-                name: data.name,
-                about: data.about,
-                age: data.age,
-                size: data.size,
-                energy: data.energy,
-                independence: data.independence,
-                environment: data.environment,
-                photos: data.photos,
-                requirements: data.requirements,
-                createdAt: new Date()
-*/

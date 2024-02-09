@@ -33,7 +33,10 @@ export class OrgsService {
             throw new Error('Password is required.')
         }
 
+
+
         const org = await this.orgsRepository.create({
+            id: data.id || undefined,
             name: data.name,
             email: data.email,
             cep: data.cep,

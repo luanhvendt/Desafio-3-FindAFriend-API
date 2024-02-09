@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { PrismaService } from "src/database/PrismaService";
-import { CepService } from "src/resource/cep/cep.service";
+import { PrismaService } from "../../../../database/PrismaService";
+import { CepService } from "../../../cep/cep.service";
 import { QueryOrgrDto } from "../../dto/query-org.dto";
 import { UpdateOrgDto } from "../../dto/update-org.dto";
 import { OrgEntity } from "../../entities/org.entity";

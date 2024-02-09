@@ -1,4 +1,5 @@
 export class CreateOrgDto {
+    id?: string;
     name: string;
     email: string;
     cep: string;

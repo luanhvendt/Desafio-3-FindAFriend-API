@@ -1,20 +1,24 @@
-import { CepService } from "src/resource/cep/cep.service";
-import { UpdateOrgDto } from "src/resource/organizations/dto/update-org.dto";
-import { OrgEntity } from "src/resource/organizations/entities/org.entity";
-import { OrgsRepository } from "src/resource/organizations/repositories/orgs.repository";
+import { BadRequestException } from "@nestjs/common";
+import { UpdateOrgDto } from "../../src/resource/organizations/dto/update-org.dto";
+import { OrgEntity } from "../../src/resource/organizations/entities/org.entity";
+import { OrgsRepository } from "../../src/resource/organizations/repositories/orgs.repository";
 
 export class InMemoryOrgsRepository implements OrgsRepository {
-    constructor(private readonly cepService: CepService) { }
-
     public items: any = []
 
     async create(data: OrgEntity) {
+        for (let i = 0; i < this.items.length; i++) {
+            if (this.items[i].email === data.email) {
+                throw new BadRequestException('org already exists.')
+            }
+        }
+
         const randomNumber = Math.floor(Math.random() * 101)
 
-        const city = await this.cepService.getCidadeByCep(data.cep)
+        const city = 'Sorocaba'
 
         const org = {
-            id: Number(data.id) | randomNumber,
+            id: parseInt(data.id),
             name: data.name,
             email: data.email,
             cep: data.cep,
@@ -43,7 +47,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
     async update(id: string, dataOrg: UpdateOrgDto) {
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].id === id) {
+            if (this.items[i].id === parseInt(id)) {
                 this.items[i].name = dataOrg.name
                 this.items[i].email = dataOrg.email
                 this.items[i].cep = dataOrg.cep
@@ -59,7 +63,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
     async delete(id: string) {
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].id === id) {
+            if (this.items[i].id === parseInt(id)) {
                 this.items.splice(i, 1);
             }
         }
