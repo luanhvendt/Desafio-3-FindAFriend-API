@@ -25,8 +25,9 @@ export class InMemoryPetsRepository implements PetsRepository {
         }
 
         const pet = {
-            id: Number(data.id) | randomNumber,
+            id: Number(data.id) || randomNumber,
             organization_id: org.id,
+            name: data.name,
             about: data.about,
             age: Number(data.age),
             size: data.size,
@@ -42,13 +43,8 @@ export class InMemoryPetsRepository implements PetsRepository {
     }
 
     async findAll() {
-        const city = 'Sorocaba'
 
-        for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].city == city) {
-                return this.items[i]
-            }
-        }
+        return this.items
     }
 
     async findUnique(id: string) {
@@ -78,7 +74,7 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     async delete(id: string) {
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].id === id) {
+            if (this.items[i].id === parseInt(id)) {
                 this.items.splice(i, 1);
             }
         }

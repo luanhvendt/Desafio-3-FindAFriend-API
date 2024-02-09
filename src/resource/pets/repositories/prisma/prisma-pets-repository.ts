@@ -16,7 +16,7 @@ export class PrismaPetsRepository implements PetsRepository {
     async create(data: CreatePetDto) {
         const pet = await this.prisma.pet.create({
             data: {
-                organization_id: data.organization_id,
+                organization_id: parseInt(data.organization_id),
                 name: data.name,
                 about: data.about,
                 age: data.age,
