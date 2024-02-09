@@ -83,20 +83,17 @@ export class PrismaPetsRepository implements PetsRepository {
             whereCondition.requirements = { contains: requirements };
         }
 
-        // Encontre todas as organizações na cidade especificada
         const organizationsInCity = await this.prisma.organization.findMany({
             where: {
                 city,
             },
             select: {
-                id: true, // Seleciona apenas o ID das organizações
+                id: true, 
             },
         });
 
-        // Obtenha os IDs das organizações encontradas
         const organizationIds = organizationsInCity.map(org => org.id);
 
-        // Adicione a condição para filtrar pets pertencentes a essas organizações
         whereCondition.organization_id = {
             in: organizationIds,
         };
